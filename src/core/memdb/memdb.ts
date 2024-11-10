@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
 import { IMemoryDB } from '../models/Memory';
 import { User } from '../models/User';
 import { Track } from '../models/Track';
