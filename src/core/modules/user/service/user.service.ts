@@ -18,4 +18,18 @@ export class UserService {
       );
     }
   }
+
+  async createUser(user: CreateUserDto): Promise<UserDto> {
+    try {
+      user['id'] = uuidv4();
+      user['version'] = 1;
+      const createdUser = memoryInstance.createUser(user);
+      return plainToInstance(UserDto, createdUser);
+    } catch (error) {
+      throw new HttpException(
+        error.message || 'Unknown error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
 }

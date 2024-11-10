@@ -1,8 +1,10 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as process from 'node:process';
 import * as path from 'node:path';
 import * as fs from 'fs';
+import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
+import { UserModule } from '@/core/modules/user/user.module';
 
 export const getEnvPath = () => {
   const envPath: string = path.join(process.cwd(), '.env');
@@ -16,6 +18,7 @@ export const getEnvPath = () => {
 
 @Module({
   imports: [
+    UserModule,
     ConfigModule.forRoot({
       envFilePath: getEnvPath(),
       isGlobal: true,

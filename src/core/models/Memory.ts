@@ -3,6 +3,7 @@ import { Track } from './Track';
 import { Artist } from './Artist';
 import { Album } from './Album';
 import { Favorites } from './Favorites';
+import { CreateUserDto } from '@/core/dto/user.dto';
 
 export interface IMemoryDB {
   getUsers(): User[];
@@ -10,4 +11,5 @@ export interface IMemoryDB {
   getArtists(): Artist[];
   getAlbums(): Album[];
   getFavorites(): Favorites[];
+  createUser(user: CreateUserDto): User;
 }
