@@ -4,7 +4,7 @@ import { Track } from '../models/Track';
 import { Artist } from '../models/Artist';
 import { Album } from '../models/Album';
 import { Favorites } from '../models/Favorites';
-import { CreateUserDto } from "@/core/dto/user.dto";
+import { CreateUserDto } from '@/core/dto/user.dto';
 
 export class Memory implements IMemoryDB {
   static #mem: Memory;
@@ -51,6 +51,10 @@ export class Memory implements IMemoryDB {
     user['updatedAt'] = Date.now();
     this._users.push(user as User);
     return user as User;
+  }
+
+  getUserById(userId: string): User {
+    return this._users.find((user: User) => user.id === userId);
   }
 }
 

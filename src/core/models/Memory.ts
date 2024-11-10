@@ -12,4 +12,5 @@ export interface IMemoryDB {
   getAlbums(): Album[];
   getFavorites(): Favorites[];
   createUser(user: CreateUserDto): User;
+  getUserById(userId: string): User;
 }

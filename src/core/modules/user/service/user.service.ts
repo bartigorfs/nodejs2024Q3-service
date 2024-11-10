@@ -32,4 +32,25 @@ export class UserService {
       );
     }
   }
+
+  async getUserById(id: string): Promise<User> {
+    const foundUser: Promise<User> = this.findUserById(id);
+    return plainToInstance(UserDto, foundUser);
+  }
+
+  private async findUserById(id: string): Promise<User> {
+    let user: User;
+
+    try {
+      user = memoryInstance.getUserById(id);
+    } catch (error) {
+      throw new HttpException(
+        error.message || 'Unknown error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+
+    if (!user) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    return user;
+  }
 }
