@@ -56,6 +56,19 @@ export class Memory implements IMemoryDB {
   getUserById(userId: string): User {
     return this._users.find((user: User) => user.id === userId);
   }
+
+  updateUserById(userId: string, data: User): User {
+    this._users = this._users.map((user: User) => {
+      if (user.id === userId) {
+        return {
+          ...data,
+          updatedAt: Date.now(),
+          version: ++user.version,
+        };
+      } else return user;
+    });
+    return this._users.find((user: User) => user.id === userId);
+  }
 }
 
 export const memoryInstance: Memory = Memory.instance;

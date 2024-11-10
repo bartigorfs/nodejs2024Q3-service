@@ -38,6 +38,27 @@ export class UserService {
     return plainToInstance(UserDto, foundUser);
   }
 
+  async updateUserPassword(id: string, userToUpdate: UpdatePasswordDto) {
+    const user: User = await this.findUserById(id);
+
+    if (user.password != userToUpdate.oldPassword) {
+      throw new HttpException('Passwords not match', HttpStatus.FORBIDDEN);
+    }
+
+    try {
+      const updatedUser: User = memoryInstance.updateUserById(id, {
+        ...user,
+        password: userToUpdate.newPassword,
+      });
+      return plainToInstance(UserDto, updatedUser);
+    } catch (error) {
+      throw new HttpException(
+        error.message || 'Unknown error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   private async findUserById(id: string): Promise<User> {
     let user: User;
 
