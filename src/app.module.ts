@@ -1,17 +1,31 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { Module } from "@nestjs/common";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import * as process from "node:process";
+import * as path from "node:path";
+import * as fs from "fs";
+
+export const getEnvPath = () => {
+  const envPath: string = path.join(process.cwd(), ".env");
+  const envExamplePath: string = envPath + ".example";
+
+  if (fs.existsSync(envPath)) {
+    return envPath;
+  }
+  return envExamplePath;
+};
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env.example',
+      envFilePath: getEnvPath(),
       isGlobal: true,
     }),
   ],
 })
 export class AppModule {
   static port: string;
+
   constructor(configService: ConfigService) {
-    AppModule.port = configService.get('PORT');
+    AppModule.port = configService.get<string>("PORT");
   }
 }
