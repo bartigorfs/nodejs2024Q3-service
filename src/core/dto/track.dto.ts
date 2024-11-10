@@ -1,24 +1,22 @@
-import { Exclude, Expose } from 'class-transformer';
-import { IsNumber, IsOptional, IsString } from 'class-validator';
+import { Expose } from 'class-transformer';
+import { IsNumber, IsString } from 'class-validator';
 
 export class TrackDto {
-  @Exclude()
+  @Expose()
   id?: string;
   @Expose()
   name: string;
   @Expose()
   duration: number;
-  @Exclude()
+  @Expose()
   artistId: string | null;
-  @Exclude()
+  @Expose()
   albumId: string | null;
 }
 
 export class CreateTrackDto {
   @IsString()
-  @IsOptional()
   name: string;
   @IsNumber()
-  @IsOptional()
   duration: number;
 }

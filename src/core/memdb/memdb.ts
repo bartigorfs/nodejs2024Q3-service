@@ -5,6 +5,8 @@ import { Artist } from '../models/Artist';
 import { Album } from '../models/Album';
 import { Favorites } from '../models/Favorites';
 import { CreateUserDto } from '@/core/dto/user.dto';
+import * as console from 'node:console';
+import { CreateTrackDto } from '@/core/dto/track.dto';
 
 export class Memory implements IMemoryDB {
   static #mem: Memory;
@@ -72,6 +74,30 @@ export class Memory implements IMemoryDB {
 
   deleteUserById(userId: string): void {
     this._users = this._users.filter((user: User) => user.id !== userId);
+  }
+
+  createTrack(track: CreateTrackDto): Track {
+    this._tracks.push(track as Track);
+    return track as Track;
+  }
+
+  deleteTrackById(trackId: string): void {
+    this._tracks = this._tracks.filter((track: Track) => track.id !== trackId);
+  }
+
+  getTrackById(trackId: string): Track {
+    return this._tracks.find((track: Track) => track.id === trackId);
+  }
+
+  updateTrackById(trackId: string, data: Track): Track {
+    this._tracks = this._tracks.map((track: Track) => {
+      if (track.id === trackId) {
+        return {
+          ...data,
+        };
+      } else return track;
+    });
+    return this.getTrackById(trackId);
   }
 }
 

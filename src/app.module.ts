@@ -5,6 +5,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { UserModule } from '@/core/modules/user/user.module';
+import { TrackModule } from '@/core/modules/track/track.module';
 
 export const getEnvPath = () => {
   const envPath: string = path.join(process.cwd(), '.env');
@@ -19,6 +20,7 @@ export const getEnvPath = () => {
 @Module({
   imports: [
     UserModule,
+    TrackModule,
     ConfigModule.forRoot({
       envFilePath: getEnvPath(),
       isGlobal: true,
