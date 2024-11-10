@@ -1,7 +1,18 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  Res,
+} from '@nestjs/common';
 import { UserService } from '../service/user.service';
 import { User } from '@/core/models/User';
-import { CreateUserDto, UpdatePasswordDto } from "@/core/dto/user.dto";
+import { CreateUserDto, UpdatePasswordDto } from '@/core/dto/user.dto';
+import { Response } from 'express';
 
 @Controller('user')
 export class UserController {
@@ -35,5 +46,14 @@ export class UserController {
       user,
     );
     return updatedUser;
+  }
+
+  @Delete(':id')
+  async deleteUser(
+    @Param('id') id: string,
+    @Res() res: Response,
+  ): Promise<void> {
+    await this.userService.deleteUser(id);
+    res.status(HttpStatus.NO_CONTENT).send();
   }
 }

@@ -69,6 +69,10 @@ export class Memory implements IMemoryDB {
     });
     return this._users.find((user: User) => user.id === userId);
   }
+
+  deleteUserById(userId: string): void {
+    this._users = this._users.filter((user: User) => user.id !== userId);
+  }
 }
 
 export const memoryInstance: Memory = Memory.instance;

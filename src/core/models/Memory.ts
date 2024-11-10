@@ -14,4 +14,5 @@ export interface IMemoryDB {
   createUser(user: CreateUserDto): User;
   getUserById(userId: string): User;
   updateUserById(userId: string, data: User): User;
+  deleteUserById(userId: string): void;
 }

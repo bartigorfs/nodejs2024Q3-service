@@ -59,6 +59,19 @@ export class UserService {
     }
   }
 
+  async deleteUser(id: string): Promise<void> {
+    await this.findUserById(id);
+
+    try {
+      memoryInstance.deleteUserById(id);
+    } catch (error) {
+      throw new HttpException(
+        error.message || 'Unknown error',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   private async findUserById(id: string): Promise<User> {
     let user: User;
 
