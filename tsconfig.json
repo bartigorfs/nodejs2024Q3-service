@@ -16,6 +16,14 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@/*": ["src/*"],
+      "@memdb": ["src/core/memdb"],
+      "@models": ["src/core/models"],
+      "@middlewares": ["src/core/middlewares"],
+      "@modules": ["src/core/modules"],
+      "@dto": ["src/core/dto"],
+    }
   }
 }
