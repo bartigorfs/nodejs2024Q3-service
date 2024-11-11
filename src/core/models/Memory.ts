@@ -34,5 +34,5 @@ export interface IMemoryDB {
   updateAlbumById(albumId: string, data: Album): Album;
   deleteAlbumById(albumId: string): void;
   //Favorites
-  getFavorites(): Favorites[];
+  getFavorites(): Favorites;
 }

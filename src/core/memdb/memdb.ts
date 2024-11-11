@@ -16,7 +16,11 @@ export class Memory implements IMemoryDB {
   private _tracks: Track[] = [];
   private _artists: Artist[] = [];
   private _albums: Album[] = [];
-  private _favorites: Favorites[] = [];
+  private _favorites: Favorites = {
+    albums: [],
+    artists: [],
+    tracks: [],
+  };
 
   private constructor() {
     console.log('OMG EMPTY CONSTRUCTOR, WHAT TO DO?');
@@ -38,7 +42,7 @@ export class Memory implements IMemoryDB {
     return this._artists;
   }
 
-  getFavorites(): Favorites[] {
+  getFavorites(): Favorites {
     return this._favorites;
   }
 
