@@ -7,6 +7,7 @@ import { Favorites } from '../models/Favorites';
 import { CreateUserDto } from '@/core/dto/user.dto';
 import * as console from 'node:console';
 import { CreateTrackDto } from '@/core/dto/track.dto';
+import { CreateArtistDto } from '@/core/dto/artists.dto';
 
 export class Memory implements IMemoryDB {
   static #mem: Memory;
@@ -98,6 +99,50 @@ export class Memory implements IMemoryDB {
       } else return track;
     });
     return this.getTrackById(trackId);
+  }
+
+  createArtist(artist: CreateArtistDto): Artist {
+    this._artists.push(artist as Artist);
+    return artist as Artist;
+  }
+
+  deleteArtistById(artistId: string): void {
+    this._artists = this._artists.filter(
+      (artist: Artist) => artist.id !== artistId,
+    );
+
+    this._tracks = this._tracks.map((track: Track) => {
+      if (track.artistId === artistId) {
+        return {
+          ...track,
+          artistId: null,
+        };
+      } else return track;
+    });
+
+    this._albums = this._albums.map((album: Album) => {
+      if (album.artistId === artistId) {
+        return {
+          ...album,
+          artistId: null,
+        };
+      } else return album;
+    });
+  }
+
+  getArtistById(artistId: string): Artist {
+    return this._artists.find((artist: Artist) => artist.id === artistId);
+  }
+
+  updateArtistById(artistId: string, data: Artist): Artist {
+    this._artists = this._artists.map((artist: Artist) => {
+      if (artist.id === artistId) {
+        return {
+          ...data,
+        };
+      } else return artist;
+    });
+    return this.getArtistById(artistId);
   }
 }
 
