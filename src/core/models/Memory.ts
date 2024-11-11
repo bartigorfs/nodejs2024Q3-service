@@ -2,7 +2,7 @@ import { User } from './User';
 import { Track } from './Track';
 import { Artist } from './Artist';
 import { Album } from './Album';
-import { Favorites, FavoritesResponse } from "./Favorites";
+import { FavoritesResponse } from './Favorites';
 import { CreateUserDto } from '@/core/dto/user.dto';
 import { CreateTrackDto } from '@/core/dto/track.dto';
 import { CreateArtistDto } from '@/core/dto/artist.dto';

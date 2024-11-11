@@ -8,8 +8,7 @@ import { UserModule } from '@/core/modules/user/user.module';
 import { TrackModule } from '@/core/modules/track/track.module';
 import { AlbumsModule } from '@/core/modules/albums/albums.module';
 import { ArtistsModule } from '@/core/modules/artists/artists.module';
-import { FavoritesModule } from "@/core/modules/favorites/favorites.module";
-import { TrackService } from "@/core/modules/track/service/track.service";
+import { FavoritesModule } from '@/core/modules/favorites/favorites.module';
 
 export const getEnvPath = () => {
   const envPath: string = path.join(process.cwd(), '.env');

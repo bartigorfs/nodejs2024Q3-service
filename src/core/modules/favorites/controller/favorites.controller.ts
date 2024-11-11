@@ -8,7 +8,7 @@ import {
   Res,
 } from '@nestjs/common';
 import { FavoritesService } from '../service/favorites.service';
-import { Favorites, FavoritesResponse } from "@/core/models/Favorites";
+import { FavoritesResponse } from '@/core/models/Favorites';
 import { Response } from 'express';
 import { TrackService } from '@/core/modules/track/service/track.service';
 import { AlbumsService } from '@/core/modules/albums/service/albums.service';
