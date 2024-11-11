@@ -7,7 +7,8 @@ import { Favorites } from '../models/Favorites';
 import { CreateUserDto } from '@/core/dto/user.dto';
 import * as console from 'node:console';
 import { CreateTrackDto } from '@/core/dto/track.dto';
-import { CreateArtistDto } from '@/core/dto/artists.dto';
+import { CreateArtistDto } from '@/core/dto/artist.dto';
+import { CreateAlbumDto } from '@/core/dto/album.dto';
 
 export class Memory implements IMemoryDB {
   static #mem: Memory;
@@ -143,6 +144,39 @@ export class Memory implements IMemoryDB {
       } else return artist;
     });
     return this.getArtistById(artistId);
+  }
+
+  createAlbum(album: CreateAlbumDto): Album {
+    this._albums.push(album as Album);
+    return album as Album;
+  }
+
+  deleteAlbumById(albumId: string): void {
+    this._albums = this._albums.filter((album: Album) => album.id !== albumId);
+
+    this._tracks = this._tracks.map((track: Track) => {
+      if (track.albumId === albumId) {
+        return {
+          ...track,
+          albumId: null,
+        };
+      } else return track;
+    });
+  }
+
+  getAlbumById(albumId: string): Album {
+    return this._albums.find((album: Album) => album.id === albumId);
+  }
+
+  updateAlbumById(albumId: string, data: Album): Album {
+    this._albums = this._albums.map((album: Album) => {
+      if (album.id === albumId) {
+        return {
+          ...data,
+        };
+      } else return album;
+    });
+    return this.getAlbumById(albumId);
   }
 }
 

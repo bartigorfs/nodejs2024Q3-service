@@ -1,5 +1,5 @@
 import { Expose } from 'class-transformer';
-import { IsNumber, IsString } from 'class-validator';
+import { IsEmpty, IsNumber, IsString } from 'class-validator';
 
 export class TrackDto {
   @Expose()
@@ -9,8 +9,10 @@ export class TrackDto {
   @Expose()
   duration: number;
   @Expose()
+  @IsEmpty()
   artistId: string | null;
   @Expose()
+  @IsEmpty()
   albumId: string | null;
 }
 

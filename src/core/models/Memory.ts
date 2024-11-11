@@ -5,7 +5,8 @@ import { Album } from './Album';
 import { Favorites } from './Favorites';
 import { CreateUserDto } from '@/core/dto/user.dto';
 import { CreateTrackDto } from '@/core/dto/track.dto';
-import { CreateArtistDto } from '@/core/dto/artists.dto';
+import { CreateArtistDto } from '@/core/dto/artist.dto';
+import { CreateAlbumDto } from '@/core/dto/album.dto';
 
 export interface IMemoryDB {
   // Users
@@ -28,5 +29,10 @@ export interface IMemoryDB {
   deleteArtistById(artistId: string): void;
   //Albums
   getAlbums(): Album[];
+  createAlbum(album: CreateAlbumDto): Album;
+  getAlbumById(albumId: string): Album;
+  updateAlbumById(albumId: string, data: Album): Album;
+  deleteAlbumById(albumId: string): void;
+  //Favorites
   getFavorites(): Favorites[];
 }

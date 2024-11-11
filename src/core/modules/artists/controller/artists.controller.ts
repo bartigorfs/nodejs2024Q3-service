@@ -12,7 +12,7 @@ import {
 import { ArtistsService } from '../service/artists.service';
 import { Response } from 'express';
 import { Artist } from '@/core/models/Artist';
-import { CreateArtistDto } from '@/core/dto/artists.dto';
+import { CreateArtistDto } from '@/core/dto/artist.dto';
 
 @Controller('artist')
 export class ArtistsController {

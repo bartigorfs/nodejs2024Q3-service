@@ -3,7 +3,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
 import { memoryInstance } from '@/core/memdb/memdb';
 import { Artist } from '@/core/models/Artist';
-import { CreateArtistDto } from '@/core/dto/artists.dto';
+import { CreateArtistDto } from '@/core/dto/artist.dto';
 
 @Injectable()
 export class ArtistsService {
