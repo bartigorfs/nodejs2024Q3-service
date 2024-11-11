@@ -8,16 +8,25 @@ import {
   Res,
 } from '@nestjs/common';
 import { FavoritesService } from '../service/favorites.service';
-import { Favorites } from '@/core/models/Favorites';
+import { Favorites, FavoritesResponse } from "@/core/models/Favorites";
 import { Response } from 'express';
+import { TrackService } from '@/core/modules/track/service/track.service';
+import { AlbumsService } from '@/core/modules/albums/service/albums.service';
+import { ArtistsService } from '@/core/modules/artists/service/artists.service';
 
 @Controller('favs')
 export class FavoritesController {
-  constructor(private favoritesService: FavoritesService) {}
+  constructor(
+    private favoritesService: FavoritesService,
+    private tracksService: TrackService,
+    private albumsService: AlbumsService,
+    private artistsService: ArtistsService,
+  ) {}
 
   @Get()
-  async findAll(): Promise<Favorites> {
-    const favs: Favorites = await this.favoritesService.getAllFavs();
+  async findAll(): Promise<FavoritesResponse> {
+    const favs: FavoritesResponse = await this.favoritesService.getAllFavs();
+    console.log(favs);
     return favs;
   }
 
@@ -26,6 +35,11 @@ export class FavoritesController {
     @Param('id') id: string,
     @Res() res: Response,
   ): Promise<void> {
+    if (!(await this.tracksService.seekTrackById(id))) {
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).send();
+      return;
+    }
+
     await this.favoritesService.addTrackToFavorite(id);
     res.status(HttpStatus.CREATED).send();
   }
@@ -35,7 +49,12 @@ export class FavoritesController {
     @Param('id') id: string,
     @Res() res: Response,
   ): Promise<void> {
-    await this.favoritesService.addTrackToFavorite(id);
+    if (!(await this.tracksService.seekTrackById(id))) {
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).send();
+      return;
+    }
+
+    await this.favoritesService.removeTrackFromFavorite(id);
     res.status(HttpStatus.NO_CONTENT).send();
   }
 
@@ -44,6 +63,11 @@ export class FavoritesController {
     @Param('id') id: string,
     @Res() res: Response,
   ): Promise<void> {
+    if (!(await this.albumsService.seekAlbumById(id))) {
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).send();
+      return;
+    }
+
     await this.favoritesService.addAlbumToFavorite(id);
     res.status(HttpStatus.CREATED).send();
   }
@@ -53,6 +77,11 @@ export class FavoritesController {
     @Param('id') id: string,
     @Res() res: Response,
   ): Promise<void> {
+    if (!(await this.albumsService.seekAlbumById(id))) {
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).send();
+      return;
+    }
+
     await this.favoritesService.removeAlbumFromFavorite(id);
     res.status(HttpStatus.NO_CONTENT).send();
   }
@@ -62,6 +91,11 @@ export class FavoritesController {
     @Param('id') id: string,
     @Res() res: Response,
   ): Promise<void> {
+    if (!(await this.artistsService.seekArtistById(id))) {
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).send();
+      return;
+    }
+
     await this.favoritesService.addArtistToFavorite(id);
     res.status(HttpStatus.CREATED).send();
   }
@@ -71,40 +105,12 @@ export class FavoritesController {
     @Param('id') id: string,
     @Res() res: Response,
   ): Promise<void> {
+    if (!(await this.artistsService.seekArtistById(id))) {
+      res.status(HttpStatus.UNPROCESSABLE_ENTITY).send();
+      return;
+    }
+
     await this.favoritesService.removeArtistFromFavorite(id);
     res.status(HttpStatus.NO_CONTENT).send();
   }
-
-  // @Get(':id')
-  // async findOne(@Param('id') id: string): Promise<Album> {
-  //   const artist: Album = await this.favoritesService.getAlbumById(id);
-  //   return artist;
-  // }
-  //
-  // @Post()
-  // async createNewArtist(@Body() artist: CreateAlbumDto): Promise<Album> {
-  //   const newArtist: Album = await this.favoritesService.createAlbum(artist);
-  //   return newArtist;
-  // }
-  //
-  // @Put(':id')
-  // async updateAlbum(
-  //   @Param('id') id: string,
-  //   @Body() artist: CreateAlbumDto,
-  // ): Promise<Album> {
-  //   const updatedArtist: Album = await this.favoritesService.updateAlbum(
-  //     id,
-  //     artist,
-  //   );
-  //   return updatedArtist;
-  // }
-  //
-  // @Delete(':id')
-  // async deleteAlbum(
-  //   @Param('id') id: string,
-  //   @Res() res: Response,
-  // ): Promise<void> {
-  //   await this.favoritesService.deleteAlbum(id);
-  //   res.status(HttpStatus.NO_CONTENT).send();
-  // }
 }

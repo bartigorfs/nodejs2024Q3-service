@@ -68,19 +68,22 @@ export class TrackService {
     }
   }
 
-  private async findTrackById(id: string): Promise<Track> {
-    let track: Track;
-
+  async seekTrackById(id: string): Promise<Track> {
     try {
-      track = memoryInstance.getTrackById(id);
+      return memoryInstance.getTrackById(id);
     } catch (error) {
       throw new HttpException(
         error.message || 'Unknown error',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
 
-    if (!track) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+  private async findTrackById(id: string): Promise<Track> {
+    const track: Track = await this.seekTrackById(id);
+
+    if (!track)
+      throw new HttpException('Track not found', HttpStatus.NOT_FOUND);
     return track;
   }
 }

@@ -68,20 +68,22 @@ export class ArtistsService {
     }
   }
 
-  private async findArtistById(id: string): Promise<Artist> {
-    let artist: Artist;
-
+  async seekArtistById(id: string): Promise<Artist> {
     try {
-      artist = memoryInstance.getArtistById(id);
+      return memoryInstance.getArtistById(id);
     } catch (error) {
       throw new HttpException(
         error.message || 'Unknown error',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  private async findArtistById(id: string): Promise<Artist> {
+    const artist: Artist = await this.seekArtistById(id);
 
     if (!artist)
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Artist not found', HttpStatus.NOT_FOUND);
     return artist;
   }
 }

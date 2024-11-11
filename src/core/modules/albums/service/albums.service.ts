@@ -66,19 +66,22 @@ export class AlbumsService {
     }
   }
 
-  private async findAlbumById(id: string): Promise<Album> {
-    let album: Album;
-
+  async seekAlbumById(id: string): Promise<Album> {
     try {
-      album = memoryInstance.getAlbumById(id);
+      return memoryInstance.getAlbumById(id);
     } catch (error) {
       throw new HttpException(
         error.message || 'Unknown error',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
 
-    if (!album) throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+  private async findAlbumById(id: string): Promise<Album> {
+    const album: Album = await this.seekAlbumById(id);
+
+    if (!album)
+      throw new HttpException('Album not found', HttpStatus.NOT_FOUND);
     return album;
   }
 }

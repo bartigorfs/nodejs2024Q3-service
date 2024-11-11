@@ -3,7 +3,7 @@ import { User } from '../models/User';
 import { Track } from '../models/Track';
 import { Artist } from '../models/Artist';
 import { Album } from '../models/Album';
-import { Favorites } from '../models/Favorites';
+import { Favorites, FavoritesResponse } from '../models/Favorites';
 import { CreateUserDto } from '@/core/dto/user.dto';
 import * as console from 'node:console';
 import { CreateTrackDto } from '@/core/dto/track.dto';
@@ -42,8 +42,16 @@ export class Memory implements IMemoryDB {
     return this._artists;
   }
 
-  getFavorites(): Favorites {
-    return this._favorites;
+  getFavorites(): FavoritesResponse {
+    console.log(this.getTracks());
+    console.log(this._favorites);
+    return {
+      artists: this._favorites.artists.map((id: string) =>
+        this.getArtistById(id),
+      ),
+      albums: this._favorites.albums.map((id: string) => this.getAlbumById(id)),
+      tracks: this._favorites.tracks.map((id: string) => this.getTrackById(id)),
+    };
   }
 
   getTracks(): Track[] {
@@ -89,6 +97,10 @@ export class Memory implements IMemoryDB {
 
   deleteTrackById(trackId: string): void {
     this._tracks = this._tracks.filter((track: Track) => track.id !== trackId);
+
+    this._favorites.tracks = this._favorites.tracks.filter(
+      (favTrackId: string) => favTrackId != trackId,
+    );
   }
 
   getTrackById(trackId: string): Track {
@@ -133,6 +145,10 @@ export class Memory implements IMemoryDB {
         };
       } else return album;
     });
+
+    this._favorites.artists = this._favorites.artists.filter(
+      (favArtistId: string) => favArtistId != artistId,
+    );
   }
 
   getArtistById(artistId: string): Artist {
@@ -166,6 +182,10 @@ export class Memory implements IMemoryDB {
         };
       } else return track;
     });
+
+    this._favorites.albums = this._favorites.albums.filter(
+      (favAlbumId: string) => favAlbumId != albumId,
+    );
   }
 
   getAlbumById(albumId: string): Album {
@@ -181,6 +201,39 @@ export class Memory implements IMemoryDB {
       } else return album;
     });
     return this.getAlbumById(albumId);
+  }
+
+  addTrackToFavorites(id: string): void {
+    if (!this._favorites.tracks.find((favId: string) => favId === id))
+      this._favorites.tracks.push(id);
+  }
+
+  removeTrackFromFavorites(id: string): void {
+    this._favorites.tracks = this._favorites.tracks.filter(
+      (favId: string) => favId !== id,
+    );
+  }
+
+  addAlbumToFavorites(id: string): void {
+    if (!this._favorites.albums.find((favId: string) => favId === id))
+      this._favorites.albums.push(id);
+  }
+
+  removeAlbumFromFavorites(id: string): void {
+    this._favorites.albums = this._favorites.albums.filter(
+      (favId: string) => favId !== id,
+    );
+  }
+
+  addArtistToFavorites(id: string): void {
+    if (!this._favorites.artists?.find((favId: string) => favId === id))
+      this._favorites.artists.push(id);
+  }
+
+  removeArtistFromFavorites(id: string): void {
+    this._favorites.artists = this._favorites.artists.filter(
+      (favId: string) => favId !== id,
+    );
   }
 }
 

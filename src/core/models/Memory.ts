@@ -2,7 +2,7 @@ import { User } from './User';
 import { Track } from './Track';
 import { Artist } from './Artist';
 import { Album } from './Album';
-import { Favorites } from './Favorites';
+import { Favorites, FavoritesResponse } from "./Favorites";
 import { CreateUserDto } from '@/core/dto/user.dto';
 import { CreateTrackDto } from '@/core/dto/track.dto';
 import { CreateArtistDto } from '@/core/dto/artist.dto';
@@ -34,5 +34,11 @@ export interface IMemoryDB {
   updateAlbumById(albumId: string, data: Album): Album;
   deleteAlbumById(albumId: string): void;
   //Favorites
-  getFavorites(): Favorites;
+  getFavorites(): FavoritesResponse;
+  addTrackToFavorites(id: string): void;
+  removeTrackFromFavorites(id: string): void;
+  addAlbumToFavorites(id: string): void;
+  removeAlbumFromFavorites(id: string): void;
+  addArtistToFavorites(id: string): void;
+  removeArtistFromFavorites(id: string): void;
 }
