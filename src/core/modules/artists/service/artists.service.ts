@@ -26,10 +26,7 @@ export class ArtistsService {
   async createArtist(artist: CreateArtistDto): Promise<Artist> {
     try {
       artist['id'] = uuidv4();
-      const createdArtist: Artist = memoryInstance.createArtist(
-        artist as Artist,
-      );
-      return createdArtist;
+      return memoryInstance.createArtist(artist as Artist);
     } catch (error) {
       throw new HttpException(
         error.message || 'Unknown error',
@@ -42,7 +39,7 @@ export class ArtistsService {
     const artist: Artist = await this.findArtistById(id);
 
     try {
-      const updatedArtist: Artist = memoryInstance.updateArtistById(id, {
+      const updatedArtist: Artist = await memoryInstance.updateArtistById(id, {
         ...artist,
         ...artistToUpdate,
       } as Artist);

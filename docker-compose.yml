@@ -1,0 +1,36 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app_service
+    environment:
+      - DATABASE_URL=postgresql://rsschool:rsschool@db:5432/rsschool?schema=homelib
+    volumes:
+      - /app/logs
+    ports:
+      - "4000:4000"
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    environment:
+      - POSTGRES_USER=rsschool
+      - POSTGRES_PASSWORD=rsschool
+      - POSTGRES_DB=rsschool
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - app-network
+
+volumes:
+  pg-data:
+
+networks:
+  app-network:

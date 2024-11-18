@@ -10,7 +10,7 @@ import { memoryInstance } from '@/core/memdb/memdb';
 export class TrackService {
   async getAllTracks(): Promise<TrackDto[]> {
     try {
-      const tracks: Track[] = memoryInstance.getTracks();
+      const tracks: Track[] = await memoryInstance.getTracks();
       return plainToInstance(TrackDto, tracks);
     } catch (error) {
       throw new HttpException(
@@ -28,7 +28,7 @@ export class TrackService {
   async createTrack(track: CreateTrackDto): Promise<TrackDto> {
     try {
       track['id'] = uuidv4();
-      const createdTrack: Track = memoryInstance.createTrack(track);
+      const createdTrack: Track = await memoryInstance.createTrack(track);
       return plainToInstance(TrackDto, createdTrack);
     } catch (error) {
       throw new HttpException(
@@ -42,7 +42,7 @@ export class TrackService {
     const track: Track = await this.findTrackById(id);
 
     try {
-      const updatedTrack: Track = memoryInstance.updateTrackById(id, {
+      const updatedTrack: Track = await memoryInstance.updateTrackById(id, {
         ...track,
         ...trackToUpdate,
       });

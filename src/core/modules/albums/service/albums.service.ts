@@ -26,8 +26,7 @@ export class AlbumsService {
   async createAlbum(artist: CreateAlbumDto): Promise<Album> {
     try {
       artist['id'] = uuidv4();
-      const createdAlbum: Album = memoryInstance.createAlbum(artist as Album);
-      return createdAlbum;
+      return memoryInstance.createAlbum(artist as Album);
     } catch (error) {
       throw new HttpException(
         error.message || 'Unknown error',
@@ -40,7 +39,7 @@ export class AlbumsService {
     const artist: Album = await this.findAlbumById(id);
 
     try {
-      const updatedAlbum: Album = memoryInstance.updateAlbumById(id, {
+      const updatedAlbum: Album = await memoryInstance.updateAlbumById(id, {
         ...artist,
         ...artistToUpdate,
       } as Album);

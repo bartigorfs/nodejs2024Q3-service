@@ -18,7 +18,7 @@ export class FavoritesService {
 
   async addTrackToFavorite(@Param('id') id: string): Promise<void> {
     try {
-      return memoryInstance.addTrackToFavorites(id);
+      await memoryInstance.addTrackToFavorites(id);
     } catch (error) {
       throw new HttpException(
         error.message || 'Unknown error',
@@ -29,7 +29,7 @@ export class FavoritesService {
 
   async removeTrackFromFavorite(@Param('id') id: string): Promise<void> {
     try {
-      return memoryInstance.removeTrackFromFavorites(id);
+      await memoryInstance.removeTrackFromFavorites(id);
     } catch (error) {
       throw new HttpException(
         error.message || 'Unknown error',
@@ -40,7 +40,7 @@ export class FavoritesService {
 
   async addAlbumToFavorite(@Param('id') id: string): Promise<void> {
     try {
-      return memoryInstance.addAlbumToFavorites(id);
+      await memoryInstance.addAlbumToFavorites(id);
     } catch (error) {
       throw new HttpException(
         error.message || 'Unknown error',
@@ -51,7 +51,7 @@ export class FavoritesService {
 
   async removeAlbumFromFavorite(@Param('id') id: string): Promise<void> {
     try {
-      return memoryInstance.removeAlbumFromFavorites(id);
+      await memoryInstance.removeAlbumFromFavorites(id);
     } catch (error) {
       throw new HttpException(
         error.message || 'Unknown error',
@@ -62,7 +62,7 @@ export class FavoritesService {
 
   async addArtistToFavorite(@Param('id') id: string): Promise<void> {
     try {
-      return memoryInstance.addArtistToFavorites(id);
+      await memoryInstance.addArtistToFavorites(id);
     } catch (error) {
       throw new HttpException(
         error.message || 'Unknown error',
@@ -73,7 +73,7 @@ export class FavoritesService {
 
   async removeArtistFromFavorite(@Param('id') id: string): Promise<void> {
     try {
-      return memoryInstance.removeArtistFromFavorites(id);
+      await memoryInstance.removeArtistFromFavorites(id);
     } catch (error) {
       throw new HttpException(
         error.message || 'Unknown error',

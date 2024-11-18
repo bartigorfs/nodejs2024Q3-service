@@ -9,7 +9,7 @@ import { memoryInstance } from '@/core/memdb/memdb';
 export class UserService {
   async getAllUsers(): Promise<User[]> {
     try {
-      const users: User[] = memoryInstance.getUsers();
+      const users: User[] = await memoryInstance.getUsers();
       return plainToInstance(UserDto, users);
     } catch (error) {
       throw new HttpException(
@@ -46,7 +46,7 @@ export class UserService {
     }
 
     try {
-      const updatedUser: User = memoryInstance.updateUserById(id, {
+      const updatedUser: User = await memoryInstance.updateUserById(id, {
         ...user,
         password: userToUpdate.newPassword,
       });
@@ -76,7 +76,7 @@ export class UserService {
     let user: User;
 
     try {
-      user = memoryInstance.getUserById(id);
+      user = await memoryInstance.getUserById(id);
     } catch (error) {
       throw new HttpException(
         error.message || 'Unknown error',
