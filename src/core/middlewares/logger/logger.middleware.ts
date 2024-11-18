@@ -7,7 +7,7 @@ export class LoggerMiddleware implements NestMiddleware {
   constructor(private readonly logger: WinstonLogger) {}
 
   use(req: Request, res: Response, next: NextFunction): void {
-    const { method, url } = req;
+    const { method } = req;
     const start = Date.now();
 
     const oldSend = res.send;
@@ -30,14 +30,14 @@ export class LoggerMiddleware implements NestMiddleware {
       const responseBody = chunks.length > 0 ? chunks.join('') : '';
       const requestBody = req.body ? JSON.stringify(req.body) : '';
 
+      console.log(req.params, req.query);
+
       const logMessage = `
-        ${method} ${url} ${res.statusCode} - ${duration}ms
-        Request Body: ${
-          requestBody.length > 2000 ? '[Too large to display]' : requestBody
-        }
-        Response Body: ${
-          responseBody.length > 2000 ? '[Too large to display]' : responseBody
-        }
+        ${method} ${req.route?.path} ${res.statusCode} - ${duration}ms
+        Request Body: ${requestBody}
+        Request Params: ${JSON.stringify(req.params)}
+        Request Query: ${JSON.stringify(req.query)}
+        Response Body: ${responseBody}
       `;
 
       this.logger.log(logMessage);
